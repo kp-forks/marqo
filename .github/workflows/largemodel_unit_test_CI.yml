@@ -92,6 +92,10 @@ jobs:
           pip install -r marqo/requirements.dev.txt
           pip install pytest==7.4.0
 
+      - name: Download nltk data
+        run: |
+            python -m nltk.downloader punkt_tab
+
       - name: Build Vespa
         run: |
           systemctl stop unattended-upgrades
