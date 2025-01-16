@@ -555,8 +555,9 @@ class StructuredVespaIndex(VespaIndex):
             'searchChain': 'marqo',
             'yql': 'PLACEHOLDER. WILL NOT BE USED IN HYBRID SEARCH.',
             'ranking': common.RANK_PROFILE_HYBRID_CUSTOM_SEARCHER,
-            'ranking.rerankCount': marqo_query.limit + marqo_query.offset,       # limits the number of results going to phase 2
-            
+            'ranking.rerankCount': marqo_query.limit + marqo_query.offset,
+            # limits the number of results going to phase 2
+
             'model_restrict': self._marqo_index.schema_name,
             'hits': marqo_query.limit,
             'offset': marqo_query.offset,
@@ -579,12 +580,12 @@ class StructuredVespaIndex(VespaIndex):
 
         query = {k: v for k, v in query.items() if v is not None}
 
-        if marqo_query.hybrid_parameters.rankingMethod in {RankingMethod.RRF}: # TODO: Add NormalizeLinear
+        if marqo_query.hybrid_parameters.rankingMethod in {RankingMethod.RRF}:  # TODO: Add NormalizeLinear
             query["marqo__hybrid.alpha"] = marqo_query.hybrid_parameters.alpha
             query["marqo__hybrid.rrf_k"] = marqo_query.hybrid_parameters.rrfK
 
-        if marqo_query.rerank_count is not None:
-            query["marqo__hybrid.rerankCountGlobal"] = marqo_query.rerank_count
+        if marqo_query.rerank_depth is not None:
+            query["marqo__hybrid.rerankDepthGlobal"] = marqo_query.rerank_depth
 
         return query
 
